@@ -22,7 +22,9 @@ export class AuthController {
   @MessagePattern('login_with_credintails')
   async loginWithCredintails(data: any) {
     const user = await this.authService.validateUser(data.email, data.password);
-    return this.authService.createToken(user);
+    if (user) return this.authService.createToken(user);
+
+    return { access_token: null };
   }
 
   @MessagePattern('get_user_roles')
